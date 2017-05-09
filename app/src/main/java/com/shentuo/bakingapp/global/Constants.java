@@ -5,4 +5,5 @@ package com.shentuo.bakingapp.global;
  */
 
 public class Constants {
+    public static final String EXTRA_KEY = "recipe";
 }
