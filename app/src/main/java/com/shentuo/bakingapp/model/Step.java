@@ -3,15 +3,14 @@ package com.shentuo.bakingapp.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import java.io.Serializable;
-
+import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
 /**
  * Created by ShentuoZhan on 9/5/17.
  */
 
-public class Step implements Serializable {
+public class Step extends RealmObject {
     @PrimaryKey
     @SerializedName("id")
     @Expose

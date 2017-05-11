@@ -3,13 +3,13 @@ package com.shentuo.bakingapp.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import java.io.Serializable;
+import io.realm.RealmObject;
 
 /**
  * Created by ShentuoZhan on 9/5/17.
  */
 
-public class BakingIngredient implements Serializable {
+public class BakingIngredient extends RealmObject {
     @SerializedName("quantity")
     @Expose
     private float quantity;

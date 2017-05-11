@@ -3,16 +3,15 @@ package com.shentuo.bakingapp.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-
+import io.realm.RealmList;
+import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
 /**
  * Created by ShentuoZhan on 9/5/17.
  */
 
-public class Recipe implements Serializable {
+public class Recipe extends RealmObject {
     @PrimaryKey
     @SerializedName("id")
     @Expose
@@ -22,10 +21,10 @@ public class Recipe implements Serializable {
     private String name;
     @SerializedName("ingredients")
     @Expose
-    private ArrayList<BakingIngredient> ingredients;
+    private RealmList<BakingIngredient> ingredients;
     @SerializedName("steps")
     @Expose
-    private ArrayList<Step> steps;
+    private RealmList<Step> steps;
     @SerializedName("servings")
     @Expose
     private int servings;
@@ -50,19 +49,19 @@ public class Recipe implements Serializable {
         this.name = name;
     }
 
-    public ArrayList<BakingIngredient> getIngredients() {
+    public RealmList<BakingIngredient> getIngredients() {
         return ingredients;
     }
 
-    public void setIngredients(ArrayList<BakingIngredient> ingredients) {
+    public void setIngredients(RealmList<BakingIngredient> ingredients) {
         this.ingredients = ingredients;
     }
 
-    public ArrayList<Step> getSteps() {
+    public RealmList<Step> getSteps() {
         return steps;
     }
 
-    public void setSteps(ArrayList<Step> steps) {
+    public void setSteps(RealmList<Step> steps) {
         this.steps = steps;
     }
 

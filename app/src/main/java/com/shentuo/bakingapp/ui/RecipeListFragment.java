@@ -13,12 +13,14 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
 import com.shentuo.bakingapp.R;
+import com.shentuo.bakingapp.data.RecipeDB;
 import com.shentuo.bakingapp.databinding.FragmentRecipeListBinding;
 import com.shentuo.bakingapp.global.Constants;
 import com.shentuo.bakingapp.model.Recipe;
 import com.shentuo.bakingapp.ui.utils.NetworkUtils;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
@@ -72,32 +74,39 @@ public class RecipeListFragment extends Fragment implements RecipeListAdapter.Li
                         .subscribeWith(new DisposableObserver<ArrayList<Recipe>>() {
                             @Override
                             public void onNext(ArrayList<Recipe> recipeList) {
-                                for (Recipe recipe : recipeList) {
-                                    mAdapter.addRecipeItem(recipe);
-                                }
-                                mAdapter.notifyDataSetChanged();
-                                mLoadingIndicator.setVisibility(View.GONE);
+                                RecipeDB.saveRecipeList(recipeList);
+                                populateRecipes(recipeList);
                             }
 
                             @Override
                             public void onError(Throwable e) {
                                 e.printStackTrace();
-                                mLoadingIndicator.setVisibility(View.GONE);
-                                NetworkUtils.showErrorMessage(binding.getRoot().getContext(), e.getMessage());
+                                if (RecipeDB.getRecipeList().size() > 0) {
+                                    populateRecipes(RecipeDB.getRecipeList());
+                                } else {
+                                    NetworkUtils.showErrorMessage(binding.getRoot().getContext(), e.getMessage());
+                                }
                             }
 
                             @Override
                             public void onComplete() {
-                                mLoadingIndicator.setVisibility(View.GONE);
                             }
                         })
         );
     }
 
+    private void populateRecipes(List<Recipe> recipeList) {
+        for (Recipe recipe : recipeList) {
+            mAdapter.addRecipeItem(recipe);
+        }
+        mAdapter.notifyDataSetChanged();
+        mLoadingIndicator.setVisibility(View.GONE);
+    }
+
     @Override
     public void onListItemClick(Recipe recipe) {
         Intent startDetailIntent = new Intent(getActivity(), RecipeDetailActivity.class);
-        startDetailIntent.putExtra(Constants.RECIPE_ITEM, recipe);
+        startDetailIntent.putExtra(Constants.RECIPE_ITEM_ID, recipe.getId());
         startActivity(startDetailIntent);
     }
 }

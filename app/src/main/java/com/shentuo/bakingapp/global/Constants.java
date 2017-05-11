@@ -5,5 +5,6 @@ package com.shentuo.bakingapp.global;
  */
 
 public class Constants {
-    public static final String RECIPE_ITEM = "recipeItem";
+    public static final String RECIPE_ITEM_ID = "recipeItemId";
+    public static final int INVALID_RECIPE_ID = -1;
 }
