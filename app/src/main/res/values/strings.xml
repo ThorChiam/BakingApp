@@ -6,4 +6,10 @@
     <string name="ingredients">ingredients:</string>
     <string name="steps">steps:</string>
     <string name="empty_view_text">No Recipe!</string>
+    <string name="play">Play</string>
+    <string name="pause">Pause</string>
+    <string name="restart">Restart</string>
+    <string name="notification_title">Do you want to watch the video?</string>
+    <string name="notification_text">Press play to watch the video!</string>
+
 </resources>

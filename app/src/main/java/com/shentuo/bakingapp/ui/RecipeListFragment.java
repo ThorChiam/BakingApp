@@ -31,7 +31,7 @@ import io.reactivex.observers.DisposableObserver;
  */
 
 public class RecipeListFragment extends Fragment implements RecipeListAdapter.ListItemClickListener {
-    private final String TAG = "RecipeListFragment";
+    private final String TAG = RecipeListFragment.class.getSimpleName();
     private FragmentRecipeListBinding binding;
     private RecipeListAdapter mAdapter;
     private RecyclerView mRecipesList;
