@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">BakingApp</string>
     <string name="error_message">Please try again later.</string>
+    <string name="error_no_internet">No Internet! Please check and try again later.</string>
+    <string name="servings">servings:</string>
+    <string name="ingredients">ingredients:</string>
+    <string name="steps">steps:</string>
 </resources>

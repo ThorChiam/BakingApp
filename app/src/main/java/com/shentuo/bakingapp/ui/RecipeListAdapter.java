@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import com.shentuo.bakingapp.R;
 import com.shentuo.bakingapp.databinding.RecipeListItemBinding;
 import com.shentuo.bakingapp.model.Recipe;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -71,7 +72,18 @@ public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.Re
 
         void bind(int listIndex) {
             Recipe recipe = mData.get(listIndex);
-            binding.tvItemRecipe.setText(recipe.getName());
+            binding.tvItemName.setText(recipe.getName());
+            String servings = binding.getRoot().getContext().getResources().getString(R.string.servings) + recipe.getServings();
+            String ingredients = binding.getRoot().getContext().getResources().getString(R.string.ingredients) + recipe.getIngredients().size();
+            String steps = binding.getRoot().getContext().getResources().getString(R.string.ingredients) + recipe.getIngredients().size();
+            binding.tvItemServing.setText(servings);
+            binding.tvItemIngredients.setText(ingredients);
+            binding.tvItemSteps.setText(steps);
+            Picasso.with(context)
+                    .load(recipe.getImage())
+                    .placeholder(R.color.colorCardBg)
+                    .error(R.color.colorCardBg)
+                    .into(binding.ivItemBg);
         }
 
         @Override

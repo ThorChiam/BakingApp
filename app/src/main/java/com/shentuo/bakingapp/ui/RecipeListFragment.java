@@ -11,7 +11,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import com.shentuo.bakingapp.R;
 import com.shentuo.bakingapp.databinding.FragmentRecipeListBinding;
@@ -50,7 +49,9 @@ public class RecipeListFragment extends Fragment implements RecipeListAdapter.Li
 
         mRecipesList.setAdapter(mAdapter);
 
-        getRecipeListFromServer();
+        if (NetworkUtils.isOnline(getActivity())) {
+            getRecipeListFromServer();
+        }
 
         return binding.getRoot();
     }
@@ -82,7 +83,7 @@ public class RecipeListFragment extends Fragment implements RecipeListAdapter.Li
                             public void onError(Throwable e) {
                                 e.printStackTrace();
                                 mLoadingIndicator.setVisibility(View.GONE);
-                                Toast.makeText(binding.getRoot().getContext(), e.getMessage() + "\n" + binding.getRoot().getResources().getString(R.string.error_message), Toast.LENGTH_LONG).show();
+                                NetworkUtils.showErrorMessage(binding.getRoot().getContext(), e.getMessage());
                             }
 
                             @Override

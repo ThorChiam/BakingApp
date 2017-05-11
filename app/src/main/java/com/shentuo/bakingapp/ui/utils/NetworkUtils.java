@@ -4,10 +4,12 @@ import android.app.Activity;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
+import com.shentuo.bakingapp.R;
 import com.shentuo.bakingapp.model.Recipe;
 
 import java.util.ArrayList;
@@ -36,7 +38,11 @@ public class NetworkUtils {
         ConnectivityManager cm =
                 (ConnectivityManager) activity.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo netInfo = cm.getActiveNetworkInfo();
-        return netInfo != null && netInfo.isConnectedOrConnecting();
+        boolean isOnline = netInfo != null && netInfo.isConnectedOrConnecting();
+        if (!isOnline) {
+            Toast.makeText(activity, activity.getResources().getString(R.string.error_no_internet), Toast.LENGTH_LONG).show();
+        }
+        return isOnline;
     }
 
     public static Observable<ArrayList<Recipe>> getRecipeList() {
@@ -61,5 +67,9 @@ public class NetworkUtils {
                 .build();
         RecipeService service = tmpRetrofit.create(RecipeService.class);
         return service.getRecipeList();
+    }
+
+    public static void showErrorMessage(Context context, String errorMessage) {
+        Toast.makeText(context, errorMessage + "\n" + context.getResources().getString(R.string.error_message), Toast.LENGTH_LONG).show();
     }
 }
