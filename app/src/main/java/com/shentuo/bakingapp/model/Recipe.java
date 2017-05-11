@@ -4,6 +4,7 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 import io.realm.annotations.PrimaryKey;
 
@@ -19,6 +20,19 @@ public class Recipe implements Serializable {
     @SerializedName("name")
     @Expose
     private String name;
+    @SerializedName("ingredients")
+    @Expose
+    private ArrayList<BakingIngredient> ingredients;
+    @SerializedName("steps")
+    @Expose
+    private ArrayList<Step> steps;
+    @SerializedName("servings")
+    @Expose
+    private int servings;
+    @SerializedName("image")
+    @Expose
+    private String image;
+
 
     public int getId() {
         return id;
@@ -36,11 +50,45 @@ public class Recipe implements Serializable {
         this.name = name;
     }
 
+    public ArrayList<BakingIngredient> getIngredients() {
+        return ingredients;
+    }
+
+    public void setIngredients(ArrayList<BakingIngredient> ingredients) {
+        this.ingredients = ingredients;
+    }
+
+    public ArrayList<Step> getSteps() {
+        return steps;
+    }
+
+    public void setSteps(ArrayList<Step> steps) {
+        this.steps = steps;
+    }
+
+    public int getServings() {
+        return servings;
+    }
+
+    public void setServings(int servings) {
+        this.servings = servings;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
     @Override
     public String toString() {
         return "Recipe{\n" +
                 "id:" + id + ",\n" +
                 "name:" + name + ",\n" +
+                "servings:" + servings + ",\n" +
+                "image:" + image + ",\n" +
                 "} " + super.toString();
     }
 }

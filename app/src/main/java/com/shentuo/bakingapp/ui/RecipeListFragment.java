@@ -11,21 +11,31 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.shentuo.bakingapp.R;
 import com.shentuo.bakingapp.databinding.FragmentRecipeListBinding;
 import com.shentuo.bakingapp.global.Constants;
 import com.shentuo.bakingapp.model.Recipe;
+import com.shentuo.bakingapp.ui.utils.NetworkUtils;
+
+import java.util.ArrayList;
+
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.observers.DisposableObserver;
 
 /**
  * Created by ShentuoZhan on 8/5/17.
  */
 
 public class RecipeListFragment extends Fragment implements RecipeListAdapter.ListItemClickListener {
-    FragmentRecipeListBinding binding;
+    private final String TAG = "RecipeListFragment";
+    private FragmentRecipeListBinding binding;
     private RecipeListAdapter mAdapter;
     private RecyclerView mRecipesList;
     private ProgressBar mLoadingIndicator;
+    private final CompositeDisposable disposables = new CompositeDisposable();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -40,12 +50,8 @@ public class RecipeListFragment extends Fragment implements RecipeListAdapter.Li
 
         mRecipesList.setAdapter(mAdapter);
 
-        for (int i = 0; i < 20; i++) {
-            Recipe recipe = new Recipe();
-            recipe.setId(i);
-            recipe.setName("Recipe " + i);
-            mAdapter.addRecipeItem(recipe);
-        }
+        getRecipeListFromServer();
+
         return binding.getRoot();
     }
 
@@ -57,10 +63,40 @@ public class RecipeListFragment extends Fragment implements RecipeListAdapter.Li
         return width >= minTabletWidth ? 3 : 1;
     }
 
+    private void getRecipeListFromServer() {
+        mLoadingIndicator.setVisibility(View.VISIBLE);
+        disposables.add(
+                NetworkUtils.getRecipeList()
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribeWith(new DisposableObserver<ArrayList<Recipe>>() {
+                            @Override
+                            public void onNext(ArrayList<Recipe> recipeList) {
+                                for (Recipe recipe : recipeList) {
+                                    mAdapter.addRecipeItem(recipe);
+                                }
+                                mAdapter.notifyDataSetChanged();
+                                mLoadingIndicator.setVisibility(View.GONE);
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+                                e.printStackTrace();
+                                mLoadingIndicator.setVisibility(View.GONE);
+                                Toast.makeText(binding.getRoot().getContext(), e.getMessage() + "\n" + binding.getRoot().getResources().getString(R.string.error_message), Toast.LENGTH_LONG).show();
+                            }
+
+                            @Override
+                            public void onComplete() {
+                                mLoadingIndicator.setVisibility(View.GONE);
+                            }
+                        })
+        );
+    }
+
     @Override
     public void onListItemClick(Recipe recipe) {
         Intent startDetailIntent = new Intent(getActivity(), RecipeDetailActivity.class);
-        startDetailIntent.putExtra(Constants.EXTRA_KEY, recipe);
+        startDetailIntent.putExtra(Constants.RECIPE_ITEM, recipe);
         startActivity(startDetailIntent);
     }
 }

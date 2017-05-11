@@ -22,7 +22,7 @@ public class RecipeDetailActivity extends AppCompatActivity {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState, @Nullable PersistableBundle persistentState) {
         super.onCreate(savedInstanceState, persistentState);
-        recipe = (Recipe) getIntent().getSerializableExtra(Constants.EXTRA_KEY);
+        recipe = (Recipe) getIntent().getSerializableExtra(Constants.RECIPE_ITEM);
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_recipe_detail);
     }
