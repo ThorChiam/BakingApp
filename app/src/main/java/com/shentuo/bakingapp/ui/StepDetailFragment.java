@@ -64,9 +64,6 @@ public class StepDetailFragment extends Fragment implements ExoPlayer.EventListe
         if (savedInstanceState != null) {
             videoUrl = savedInstanceState.getString(Constants.VIDEO_URL);
             stepDescription = savedInstanceState.getString(Constants.STEP_DESCRIPTION);
-        } else if (step != null) {
-            videoUrl = step.getVideoURL();
-            stepDescription = step.getDescription();
         }
         updateContent();
         return binding.getRoot();
@@ -84,6 +81,10 @@ public class StepDetailFragment extends Fragment implements ExoPlayer.EventListe
     }
 
     public void updateContent() {
+        if (step != null) {
+            videoUrl = step.getVideoURL();
+            stepDescription = step.getDescription();
+        }
         if (binding.tvStepDescription != null) {
             binding.tvStepDescription.setText(stepDescription);
         }
