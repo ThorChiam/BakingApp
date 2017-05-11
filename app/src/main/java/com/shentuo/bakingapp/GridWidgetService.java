@@ -80,7 +80,7 @@ public class GridWidgetService extends RemoteViewsService {
 
             String servings = mContext.getResources().getString(R.string.servings) + recipe.getServings();
             String ingredients = mContext.getResources().getString(R.string.ingredients) + recipe.getIngredients().size();
-            String steps = mContext.getResources().getString(R.string.ingredients) + recipe.getIngredients().size();
+            String steps = mContext.getResources().getString(R.string.steps) + recipe.getIngredients().size();
             views.setTextViewText(R.id.tv_item_name, recipe.getName());
             views.setTextViewText(R.id.tv_item_ingredients, ingredients);
             views.setTextViewText(R.id.tv_item_steps, steps);

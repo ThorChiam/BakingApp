@@ -23,6 +23,7 @@
         <activity
             android:name="com.shentuo.bakingapp.ui.RecipeDetailActivity"
             android:configChanges="orientation|keyboardHidden|screenSize" />
+        <activity android:name="com.shentuo.bakingapp.ui.StepDetailActivity" />
 
         <receiver
             android:name="com.shentuo.bakingapp.RecipeAppWidgetProvider"

@@ -75,7 +75,7 @@ public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.Re
             binding.tvItemName.setText(recipe.getName());
             String servings = binding.getRoot().getContext().getResources().getString(R.string.servings) + recipe.getServings();
             String ingredients = binding.getRoot().getContext().getResources().getString(R.string.ingredients) + recipe.getIngredients().size();
-            String steps = binding.getRoot().getContext().getResources().getString(R.string.ingredients) + recipe.getIngredients().size();
+            String steps = binding.getRoot().getContext().getResources().getString(R.string.steps) + recipe.getIngredients().size();
             binding.tvItemServing.setText(servings);
             binding.tvItemIngredients.setText(ingredients);
             binding.tvItemSteps.setText(steps);

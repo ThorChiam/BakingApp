@@ -69,7 +69,7 @@ public class RecipeAppWidgetProvider extends AppWidgetProvider {
 
         String servings = context.getResources().getString(R.string.servings) + recipe.getServings();
         String ingredients = context.getResources().getString(R.string.ingredients) + recipe.getIngredients().size();
-        String steps = context.getResources().getString(R.string.ingredients) + recipe.getIngredients().size();
+        String steps = context.getResources().getString(R.string.steps) + recipe.getIngredients().size();
         views.setTextViewText(R.id.tv_item_name, recipe.getName());
         views.setTextViewText(R.id.tv_item_ingredients, ingredients);
         views.setTextViewText(R.id.tv_item_steps, steps);
