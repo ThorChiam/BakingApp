@@ -227,7 +227,9 @@ public class StepDetailFragment extends Fragment implements ExoPlayer.EventListe
     public void onDestroy() {
         super.onDestroy();
         releasePlayer();
-        mMediaSession.setActive(false);
+        if (mMediaSession!=null){
+            mMediaSession.setActive(false);
+        }
     }
 
     // ExoPlayer Event Listeners
