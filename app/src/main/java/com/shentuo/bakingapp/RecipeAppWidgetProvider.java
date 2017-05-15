@@ -10,6 +10,7 @@ import android.widget.RemoteViews;
 
 import com.shentuo.bakingapp.data.RecipeDB;
 import com.shentuo.bakingapp.global.Constants;
+import com.shentuo.bakingapp.model.BakingIngredient;
 import com.shentuo.bakingapp.model.Recipe;
 import com.shentuo.bakingapp.ui.MainActivity;
 import com.shentuo.bakingapp.ui.RecipeDetailActivity;
@@ -60,20 +61,30 @@ public class RecipeAppWidgetProvider extends AppWidgetProvider {
             intent.putExtra(Constants.RECIPE_ITEM_ID, recipeId);
         }
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
         // Construct the RemoteViews object
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.recipe_widget);
-        // Update the recipe image
-        Picasso.with(context)
-                .load(recipe.getImage())
-                .into(views, R.id.iv_item_bg, new int[]{currentAppWidgetId});
+        String ingredientsText = "";
+        String recipeName = "";
+        if (recipe != null) {
+            // Update the recipe image
+            Picasso.with(context)
+                    .load(recipe.getImage())
+                    .into(views, R.id.iv_item_bg, new int[]{currentAppWidgetId});
 
-        String servings = context.getResources().getString(R.string.servings) + recipe.getServings();
-        String ingredients = context.getResources().getString(R.string.ingredients) + recipe.getIngredients().size();
-        String steps = context.getResources().getString(R.string.steps) + recipe.getIngredients().size();
-        views.setTextViewText(R.id.tv_item_name, recipe.getName());
-        views.setTextViewText(R.id.tv_item_ingredients, ingredients);
-        views.setTextViewText(R.id.tv_item_steps, steps);
-        views.setTextViewText(R.id.tv_item_serving, servings);
+            recipeName = recipe.getName();
+            if (recipe.getIngredients() != null && recipe.getIngredients().size() > 0) {
+                ingredientsText = context.getResources().getString(R.string.ingredients);
+                for (BakingIngredient ingredient : recipe.getIngredients()) {
+                    ingredientsText += " " + ingredient.getQuantity() + " " + ingredient.getMeasure() + " " + ingredient.getIngredient() + ",";
+                }
+                ingredientsText = ingredientsText.substring(0, ingredientsText.length() - 1);
+            }
+        }
+
+        views.setTextViewText(R.id.tv_item_name, recipeName);
+        views.setTextViewText(R.id.tv_item_ingredients, ingredientsText);
+
         // Widgets allow click handlers to only launch pending intents
         views.setOnClickPendingIntent(R.id.iv_item_bg, pendingIntent);
 

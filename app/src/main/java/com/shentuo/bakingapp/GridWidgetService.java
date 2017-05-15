@@ -8,6 +8,7 @@ import android.widget.RemoteViewsService;
 
 import com.shentuo.bakingapp.data.RecipeDB;
 import com.shentuo.bakingapp.global.Constants;
+import com.shentuo.bakingapp.model.BakingIngredient;
 import com.shentuo.bakingapp.model.Recipe;
 import com.squareup.picasso.Picasso;
 
@@ -71,24 +72,31 @@ public class GridWidgetService extends RemoteViewsService {
             Recipe recipe = mRecipes.get(position);
 
             RemoteViews views = new RemoteViews(mContext.getPackageName(), R.layout.recipe_widget);
+            String ingredientsText = "";
+            String recipeName = "";
+            Intent fillInIntent = new Intent();
+            if (recipe != null) {
+                // Update the recipe image
+                Picasso.with(mContext)
+                        .load(recipe.getImage())
+                        .into(views, R.id.iv_item_bg, new int[]{appWidgetId});
 
-            // Update the recipe image
-            Picasso.with(mContext)
-                    .load(recipe.getImage())
-                    .into(views, R.id.iv_item_bg, new int[]{appWidgetId});
+                recipeName = recipe.getName();
+                if (recipe.getIngredients() != null && recipe.getIngredients().size() > 0) {
+                    ingredientsText = mContext.getResources().getString(R.string.ingredients);
+                    for (BakingIngredient ingredient : recipe.getIngredients()) {
+                        ingredientsText += " " + ingredient.getQuantity() + " " + ingredient.getMeasure() + " " + ingredient.getIngredient() + ",";
+                    }
+                    ingredientsText = ingredientsText.substring(0, ingredientsText.length() - 1);
+                }
 
+                fillInIntent.putExtra(Constants.RECIPE_ITEM_ID, recipe.getId());
+            }
 
-            String servings = mContext.getResources().getString(R.string.servings) + recipe.getServings();
-            String ingredients = mContext.getResources().getString(R.string.ingredients) + recipe.getIngredients().size();
-            String steps = mContext.getResources().getString(R.string.steps) + recipe.getIngredients().size();
-            views.setTextViewText(R.id.tv_item_name, recipe.getName());
-            views.setTextViewText(R.id.tv_item_ingredients, ingredients);
-            views.setTextViewText(R.id.tv_item_steps, steps);
-            views.setTextViewText(R.id.tv_item_serving, servings);
+            views.setTextViewText(R.id.tv_item_name, recipeName);
+            views.setTextViewText(R.id.tv_item_ingredients, ingredientsText);
 
             // Fill in the onClick PendingIntent Template using the specific recipe Id for each item individually
-            Intent fillInIntent = new Intent();
-            fillInIntent.putExtra(Constants.RECIPE_ITEM_ID, recipe.getId());
             views.setOnClickFillInIntent(R.id.iv_item_bg, fillInIntent);
 
             return views;
