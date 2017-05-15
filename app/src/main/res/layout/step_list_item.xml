@@ -24,7 +24,9 @@
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:background="@color/colorPrimary"
-                android:textColor="@color/colorWhite" />
+                android:padding="@dimen/medium_padding"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/medium_font_size" />
 
         </RelativeLayout>
 

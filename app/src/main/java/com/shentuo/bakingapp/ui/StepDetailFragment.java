@@ -221,13 +221,13 @@ public class StepDetailFragment extends Fragment implements ExoPlayer.EventListe
     }
 
     /**
-     * Release the player when the activity is destroyed.
+     * Release the player when the activity is paused.
      */
     @Override
-    public void onDestroy() {
-        super.onDestroy();
+    public void onPause() {
+        super.onPause();
         releasePlayer();
-        if (mMediaSession!=null){
+        if (mMediaSession != null) {
             mMediaSession.setActive(false);
         }
     }
