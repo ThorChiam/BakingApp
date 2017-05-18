@@ -14,6 +14,8 @@ import com.shentuo.bakingapp.model.Recipe;
 import com.shentuo.bakingapp.model.Step;
 import com.shentuo.bakingapp.ui.utils.Util;
 
+import java.util.List;
+
 /**
  * Created by ShentuoZhan on 8/5/17.
  */
@@ -43,15 +45,22 @@ public class RecipeDetailActivity extends AppCompatActivity implements StepListA
         mAdapter = new StepListAdapter(this);
         mStepsList.setAdapter(mAdapter);
 
-        for (Step step : recipe.getSteps()) {
-            mAdapter.addStepItem(step);
+        List<Step> steps = null;
+        if (recipe != null && recipe.getSteps() != null) {
+            steps = recipe.getSteps();
+            for (Step step : steps) {
+                mAdapter.addStepItem(step);
+            }
         }
+
         mAdapter.notifyDataSetChanged();
 
         if (binding.stepDetailContainer != null) {
             mTwoPane = true;
             if (savedInstanceState == null) {
-                currentStepId = recipe.getSteps().get(0).getId();
+                if (steps != null && steps.size() > 0) {
+                    currentStepId = steps.get(0).getId();
+                }
             } else {
                 currentStepId = savedInstanceState.getInt(Constants.STEP_ITEM_ID);
             }
