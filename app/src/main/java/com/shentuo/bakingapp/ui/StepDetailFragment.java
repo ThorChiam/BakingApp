@@ -36,7 +36,6 @@ import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.google.android.exoplayer2.util.Util;
 import com.shentuo.bakingapp.R;
 import com.shentuo.bakingapp.databinding.FragmentStepDetailBinding;
-import com.shentuo.bakingapp.global.Constants;
 import com.shentuo.bakingapp.model.Step;
 
 import static android.content.Context.NOTIFICATION_SERVICE;
@@ -61,18 +60,12 @@ public class StepDetailFragment extends Fragment implements ExoPlayer.EventListe
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_step_detail, container, false);
         mPlayerView = binding.videoPlayerView;
-        if (savedInstanceState != null) {
-            videoUrl = savedInstanceState.getString(Constants.VIDEO_URL);
-            stepDescription = savedInstanceState.getString(Constants.STEP_DESCRIPTION);
-        }
         updateContent();
         return binding.getRoot();
     }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
-        outState.putString(Constants.VIDEO_URL, videoUrl);
-        outState.putString(Constants.STEP_DESCRIPTION, stepDescription);
         super.onSaveInstanceState(outState);
     }
 
