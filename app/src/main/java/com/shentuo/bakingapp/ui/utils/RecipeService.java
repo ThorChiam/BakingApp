@@ -12,6 +12,6 @@ import retrofit2.http.GET;
  */
 
 public interface RecipeService {
-    @GET("topher/2017/March/58d1537b_baking/baking.json")
+    @GET("topher/2017/May/59121517_baking/baking.json")
     Observable<ArrayList<Recipe>> getRecipeList();
 }

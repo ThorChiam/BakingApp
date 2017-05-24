@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 
 import com.shentuo.bakingapp.R;
 import com.shentuo.bakingapp.databinding.RecipeListItemBinding;
+import com.shentuo.bakingapp.global.Constants;
 import com.shentuo.bakingapp.model.Recipe;
 import com.squareup.picasso.Picasso;
 
@@ -79,8 +80,9 @@ public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.Re
             binding.tvItemServing.setText(servings);
             binding.tvItemIngredients.setText(ingredients);
             binding.tvItemSteps.setText(steps);
+            String imageURL = recipe.getImage() == null || recipe.getImage().isEmpty() ? Constants.DEFAULT_IMAGE_URL : recipe.getImage();
             Picasso.with(context)
-                    .load(recipe.getImage())
+                    .load(imageURL)
                     .placeholder(R.color.colorCardBg)
                     .error(R.color.colorCardBg)
                     .into(binding.ivItemBg);
